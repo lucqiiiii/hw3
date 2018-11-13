@@ -130,8 +130,16 @@ void list_copy(dnode* src, dnode*& head) {
 
 void reverse(dnode*& head)
 {
-    
-  
+    Node *c = head;
+    Node *n;
+    Node *p;
+    while(c != NULL){
+        n = c -> link();
+        p = c -> prev();
+        c -> link() = p;
+        c = n;
+    }
+    head = c -> prev();
 }
 
 
