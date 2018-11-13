@@ -8,7 +8,7 @@ class dnode
 public:
     typedef double value_type;
     // constructor
-    node(const value_type& d=value_type(), dnode* l=NULL, dnode* p=NULL)
+    dnode(const value_type& d=value_type(), dnode* l=NULL, dnode* p=NULL)
     {
         data_field = d;
         link_field = l;
@@ -18,7 +18,7 @@ public:
     // modifiers
     void set_data(const value_type& d){ data_field = d;}
     void set_link(dnode* l) {link_field = l;}
-    void set_prev(dnode* p) (prev_field = p;);
+    void set_prev(dnode* p) {prev_field = p;};
     // observers
     value_type data() const {return data_field;}
 
@@ -39,18 +39,6 @@ private:
 };
 
 // Helper Methods
-size_t list_length (dnode* head)
-{
-    dnode* temp_ptr=head;
-    int count = 0;
-    
-    while (temp_ptr != NULL) {
-        count++;
-        temp_ptr = temp_ptr->link();
-    }
-    return count;
-}
-
 void insert(dnode*& head, dnode*& prev, const dnode::value_type& v){
     if(prev == NULL){        
         dnode* p;
@@ -90,53 +78,15 @@ void erase_one(dnode*& head, dnode*& deletenode){
     }
 }  
 
-dnode* list_search(dnode* head, const dnode::value_type& v){
-    
-    dnode* cursor = head;
-    
-    if (cursor == NULL){
-        return NULL;
-    } else {
-        while ((cursor!= NULL) && (cursor->data() != v)) {
-            cursor = cursor->link();
-        }
-        return cursor;
-    }
-}
-
-void list_copy(dnode* src, dnode*& head) {
-    
-    head = NULL;
-    dnode* tail = NULL;
-    
-    if (src == NULL){ // Empty source list
-        return;
-    }
-    
-    // inserting the first node in the copy
-    list_head_insert(head, src->data());
-    tail = head;
-    
-    // inserting the rest of the nodes from src to the copy
-    src = src->link();
-    while (src != NULL) {
-        list_insert(tail, src->data());
-        tail = tail->link();
-        src = src->link();
-    }
-}
-
-// START OF LECTURE #10: October 29, 2018
-
 void reverse(dnode*& head)
 {
-    Node *c = head;
-    Node *n;
-    Node *p;
+    dnode *c = head;
+    dnode *n;
+    dnode *p;
     while(c != NULL){
         n = c -> link();
         p = c -> prev();
-        c -> link() = p;
+        c -> set_link(p);
         c = n;
     }
     head = c -> prev();

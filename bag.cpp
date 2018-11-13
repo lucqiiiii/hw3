@@ -1,13 +1,15 @@
 #include "bag.h"
+using namespace std;
+
 
 bag::bag(){
     head = NULL;
     num_nodes = 0;
 }
 
-bag::bag(const& bag src){
+bag::bag(const bag& src){
     list_copy(src.head,head);
-    num_nodes = src.num_node;
+    num_nodes = src.num_nodes;
 }
 
 bag::~bag(){
@@ -21,7 +23,7 @@ void bag::insert(const value_type& entry){
 }
 
 bool bag::erase_one(const value_type& target){
-    ndoe *target_node;
+    node *target_node;
     target_node = list_search(head,target);
     if(target_node == NULL){
         return false;
@@ -32,7 +34,7 @@ bool bag::erase_one(const value_type& target){
     return true;
 }
 
-size_type bag::erase(const value_type& target){
+bag::size_type bag::erase(const value_type& target){
     size_type num = 0;
     node *target_node;
     target_node = list_search(head,target);
@@ -46,3 +48,4 @@ size_type bag::erase(const value_type& target){
     }
     return num;
 }
+
