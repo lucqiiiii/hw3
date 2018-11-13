@@ -8,7 +8,7 @@ class dnode
 public:
     typedef double value_type;
     // constructor
-    node(const value_type& d=value_type(), node* l=NULL, node* p=NULL)
+    node(const value_type& d=value_type(), dnode* l=NULL, dnode* p=NULL)
     {
         data_field = d;
         link_field = l;
@@ -17,31 +17,31 @@ public:
     
     // modifiers
     void set_data(const value_type& d){ data_field = d;}
-    void set_link(node* l) {link_field = l;}
-    void set_prev(node* p) (prev_field = p;);
+    void set_link(dnode* l) {link_field = l;}
+    void set_prev(dnode* p) (prev_field = p;);
     // observers
     value_type data() const {return data_field;}
 
     // forward links
-    node* link() {return link_field;};
-    const node* link() const {return link_field;};
+    dnode* link() {return link_field;};
+    const dnode* link() const {return link_field;};
 
     // backward links
-    node* prev() {return prev_field;};
-    const node* prev() const {return prev_field;};
+    dnode* prev() {return prev_field;};
+    const dnode* prev() const {return prev_field;};
     
 private:
     value_type data_field;
     // forward pointer
-    node* link_field;
+    dnode* link_field;
     // backward pointer
-    node* prev_field;
+    dnode* prev_field;
 };
 
 // Helper Methods
-size_t list_length (node* head)
+size_t list_length (dnode* head)
 {
-    node* temp_ptr=head;
+    dnode* temp_ptr=head;
     int count = 0;
     
     while (temp_ptr != NULL) {
@@ -51,26 +51,48 @@ size_t list_length (node* head)
     return count;
 }
 
-void list_head_insert(node*& head, const node::value_type& v) {
-    
-    node* p;
-    p = new node(v, head);
-    head = p;
+void insert(dnode*& head, dnode*& prev, const dnode::value_type& v){
+    if(prev == NULL){        
+        dnode* p;
+        p = new dnode(v, head, prev);
+        head = p;
+    }
+    else{
+        dnode* p;
+        p = new dnode(v, prev -> link(), prev);
+        prev -> set_link(p);
+        
+    }
 }
 
-void list_insert(node* prev, const node::value_type& v){
-    
-    assert(prev != NULL);
-    node* q;
-    q = new node(v, prev->link());
-    prev->set_link(q);
-    prev=NULL;
-    
-}
+void erase_one(dnode*& head, dnode*& deletenode){
+    assert(head != NULL);
+    if(head == deletenode){
+        if(head -> link() == NULL){
+            head -> set_data(dnode::value_type());
+            head -> set_link(NULL);
+            delete head;
+        }
+        else{
+            dnode *deleted_node = head;
+            head = head -> link();
+            deleted_node -> set_data(dnode::value_type());
+            deleted_node -> set_link(NULL);
+            delete deleted_node;
+        }
+    }
+    else{
+        deletenode -> prev() -> set_link(deletenode -> link());
+        deletenode -> link() -> set_prev(deletenode -> prev());
+        deletenode -> set_data(dnode::value_type());
+        deletenode -> set_link(NULL);
+        delete deletenode;
+    }
+}  
 
-node* list_search(node* head, const node::value_type& v){
+dnode* list_search(dnode* head, const dnode::value_type& v){
     
-    node* cursor = head;
+    dnode* cursor = head;
     
     if (cursor == NULL){
         return NULL;
@@ -82,10 +104,10 @@ node* list_search(node* head, const node::value_type& v){
     }
 }
 
-void list_copy(node* src, node*& head) {
+void list_copy(dnode* src, dnode*& head) {
     
     head = NULL;
-    node* tail = NULL;
+    dnode* tail = NULL;
     
     if (src == NULL){ // Empty source list
         return;
@@ -106,25 +128,10 @@ void list_copy(node* src, node*& head) {
 
 // START OF LECTURE #10: October 29, 2018
 
-void list_head_remove(node*& head)
+void reverse(dnode*& head)
 {
-
+    
   
-}
-
-vooid list_remove(node* prev_ptr)
-{
-
-
-
-
-}
-
-void list_clear(node*& head) 
-{
-
-   
-
 }
 
 

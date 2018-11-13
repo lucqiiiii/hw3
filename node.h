@@ -133,6 +133,18 @@ void list_clear(node*& head)
 
 }
 
+void reverse(node*& head){
+    Node *p = NULL;
+    Node *c = head;
+    Node *n;
+    while(c != NULL){
+        n = c -> link();
+        c -> link() = p;
+        p = c;
+        c = n;
+    }
+    head = p;
+}
 
 
 #endif
