@@ -1,3 +1,5 @@
+//Qi Guo Keely Yeh
+
 #include <cassert>
 #include <cstdlib>
 using namespace std;
@@ -49,7 +51,7 @@ void insert(dnode*& head, dnode*& prev, const dnode::value_type& v){
         dnode* p;
         p = new dnode(v, prev -> link(), prev);
         prev -> set_link(p);
-        
+        p -> link() -> set_prev(p);
     }
 }
 

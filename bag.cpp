@@ -1,3 +1,4 @@
+//Qi Guo Kelly Yeh
 #include "bag.h"
 using namespace std;
 
